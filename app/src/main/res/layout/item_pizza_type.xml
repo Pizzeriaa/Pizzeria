@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Pizza Image -->
+    <ImageView
+        android:id="@+id/pizzaItemImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/veggie_pizza"
+        android:contentDescription="Pizza Image" />
+
+    <!-- Pizza Name -->
+    <TextView
+        android:id="@+id/pizzaItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/pizzaItemImage"
+        android:text="Veggie Pizza"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp" />
+
+</RelativeLayout>

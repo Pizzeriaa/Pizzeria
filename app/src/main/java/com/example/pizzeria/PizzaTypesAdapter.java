@@ -1,6 +1,8 @@
 // PizzaTypesAdapter.java
 package com.example.pizzeria;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,11 @@ import java.util.List;
 public class PizzaTypesAdapter extends RecyclerView.Adapter<PizzaTypesAdapter.ViewHolder> {
 
     private List<Pizza> pizzas;
+    private Context context;
 
-    public PizzaTypesAdapter(List<Pizza> pizzas) {
+    public PizzaTypesAdapter(List<Pizza> pizzas, Context context) {
         this.pizzas = pizzas;
+        this.context = context;
     }
 
     @NonNull
@@ -33,6 +37,16 @@ public class PizzaTypesAdapter extends RecyclerView.Adapter<PizzaTypesAdapter.Vi
 
         holder.textViewPizzaName.setText(pizza.getName());
         holder.imageViewPizza.setImageResource(pizza.getImageResourceId());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an intent to open the pizza details activity
+                Intent intent = new Intent(context, activity_pizza_details.class);
+                intent.putExtra("pizza", pizza);  // Pass the clicked pizza to the details activity
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

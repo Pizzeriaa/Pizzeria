@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/pizzaPrimaryColor">
 
     <!-- Display Pizza Image -->
     <ImageView
@@ -23,7 +24,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white" />
 
     <!-- Display Pizza Description -->
     <TextView
@@ -32,7 +34,8 @@
         android:layout_height="wrap_content"
         android:text="Delicious vegetarian pizza topped with fresh vegetables."
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white" />
 
     <!-- Display Pizza Sizes and Prices -->
     <RadioGroup
@@ -46,22 +49,39 @@
             android:id="@+id/sizeSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small - $10"
-            android:checked="true" />
+            android:text="Small"
+            android:checked="true"
+            android:textColor="@android:color/white"
+            android:onClick="onSizeSelected" />
 
         <RadioButton
             android:id="@+id/sizeMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium - $15" />
+            android:text="Medium"
+            android:textColor="@android:color/white"
+            android:onClick="onSizeSelected" />
 
         <RadioButton
             android:id="@+id/sizeLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large - $20" />
+            android:text="Large"
+            android:textColor="@android:color/white"
+            android:onClick="onSizeSelected" />
 
     </RadioGroup>
+
+    <!-- Display Pizza Price -->
+    <TextView
+        android:id="@+id/pizzaPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$10"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
 
     <!-- Add to Cart Button -->
     <Button

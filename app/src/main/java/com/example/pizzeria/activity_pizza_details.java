@@ -2,6 +2,7 @@ package com.example.pizzeria;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -11,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class activity_pizza_details extends AppCompatActivity {
 
     private TextView pizzaPrice;
+    private TextView pizzaQuantity; // Added TextView for quantity display
+    private int quantity = 1;
+    private double basePrice = 10.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,7 @@ public class activity_pizza_details extends AppCompatActivity {
         setContentView(R.layout.activity_pizza_details);
 
         pizzaPrice = findViewById(R.id.pizzaPrice);
+        pizzaQuantity = findViewById(R.id.pizzaQuantity); // Initialize quantity TextView
 
         ImageView pizzaImage = findViewById(R.id.pizzaImage);
         TextView pizzaName = findViewById(R.id.pizzaName);
@@ -28,6 +33,34 @@ public class activity_pizza_details extends AppCompatActivity {
             pizzaImage.setImageResource(pizza.getImageResourceId());
             pizzaName.setText(pizza.getName());
         }
+
+        // Set initial price
+        updatePrice();
+        updateQuantity(); // Initialize quantity TextView
+
+        // Quantity controls
+        ImageButton decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
+        ImageButton increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
+
+        decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (quantity > 1) {
+                    quantity--;
+                    updateQuantity(); // Update quantity TextView
+                    updatePrice();
+                }
+            }
+        });
+
+        increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity++;
+                updateQuantity(); // Update quantity TextView
+                updatePrice();
+            }
+        });
     }
 
     // Method called when a size is selected
@@ -35,22 +68,29 @@ public class activity_pizza_details extends AppCompatActivity {
         RadioButton radioButton = (RadioButton) view;
         String size = radioButton.getText().toString();
 
-        // Update the displayed price based on the selected size
-        String price;
         switch (size) {
             case "Small":
-                price = "$10";
+                basePrice = 10.0;
                 break;
             case "Medium":
-                price = "$15";
+                basePrice = 15.0;
                 break;
             case "Large":
-                price = "$20";
+                basePrice = 20.0;
                 break;
             default:
-                price = "$10"; // Default to Small price
+                basePrice = 10.0; // Default to Small price
         }
 
-        pizzaPrice.setText(price);
+        updatePrice();
+    }
+
+    private void updatePrice() {
+        double totalPrice = basePrice * quantity;
+        pizzaPrice.setText(getString(R.string.pizza_price, totalPrice));
+    }
+
+    private void updateQuantity() {
+        pizzaQuantity.setText(String.valueOf(quantity)); // Update quantity TextView
     }
 }

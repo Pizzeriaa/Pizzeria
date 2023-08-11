@@ -1,18 +1,21 @@
 package com.example.pizzeria;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class activity_pizza_details extends AppCompatActivity {
 
     private TextView pizzaPrice;
-    private TextView pizzaQuantity; // Added TextView for quantity display
+    private TextView pizzaQuantity;
     private int quantity = 1;
     private double basePrice = 10.0;
 
@@ -22,7 +25,7 @@ public class activity_pizza_details extends AppCompatActivity {
         setContentView(R.layout.activity_pizza_details);
 
         pizzaPrice = findViewById(R.id.pizzaPrice);
-        pizzaQuantity = findViewById(R.id.pizzaQuantity); // Initialize quantity TextView
+        pizzaQuantity = findViewById(R.id.pizzaQuantity);
 
         ImageView pizzaImage = findViewById(R.id.pizzaImage);
         TextView pizzaName = findViewById(R.id.pizzaName);
@@ -34,11 +37,9 @@ public class activity_pizza_details extends AppCompatActivity {
             pizzaName.setText(pizza.getName());
         }
 
-        // Set initial price
         updatePrice();
-        updateQuantity(); // Initialize quantity TextView
+        updateQuantity();
 
-        // Quantity controls
         ImageButton decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
         ImageButton increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
 
@@ -47,7 +48,7 @@ public class activity_pizza_details extends AppCompatActivity {
             public void onClick(View v) {
                 if (quantity > 1) {
                     quantity--;
-                    updateQuantity(); // Update quantity TextView
+                    updateQuantity();
                     updatePrice();
                 }
             }
@@ -57,13 +58,34 @@ public class activity_pizza_details extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 quantity++;
-                updateQuantity(); // Update quantity TextView
+                updateQuantity();
                 updatePrice();
+            }
+        });
+
+        Button addToCartButton = findViewById(R.id.addToCartButton);
+
+        addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pizzaNameText = pizzaName.getText().toString();
+                String pizzaPriceText = pizzaPrice.getText().toString();
+
+                // Create a cart item
+                CartItem cartItem = new CartItem(pizzaNameText, pizzaPriceText, quantity);
+
+                // Add the item to the cart using CartManager
+                CartManager.getInstance().addItemToCart(cartItem);
+
+                // Notify the user
+                Toast.makeText(activity_pizza_details.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+
+                // Finish the activity
+                finish();
             }
         });
     }
 
-    // Method called when a size is selected
     public void onSizeSelected(View view) {
         RadioButton radioButton = (RadioButton) view;
         String size = radioButton.getText().toString();
@@ -79,7 +101,7 @@ public class activity_pizza_details extends AppCompatActivity {
                 basePrice = 20.0;
                 break;
             default:
-                basePrice = 10.0; // Default to Small price
+                basePrice = 10.0;
         }
 
         updatePrice();
@@ -91,6 +113,6 @@ public class activity_pizza_details extends AppCompatActivity {
     }
 
     private void updateQuantity() {
-        pizzaQuantity.setText(String.valueOf(quantity)); // Update quantity TextView
+        pizzaQuantity.setText(String.valueOf(quantity));
     }
 }

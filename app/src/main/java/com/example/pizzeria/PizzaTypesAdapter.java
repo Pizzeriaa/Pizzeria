@@ -1,4 +1,3 @@
-// PizzaTypesAdapter.java
 package com.example.pizzeria;
 
 import android.content.Context;
@@ -41,9 +40,8 @@ public class PizzaTypesAdapter extends RecyclerView.Adapter<PizzaTypesAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an intent to open the pizza details activity
                 Intent intent = new Intent(context, activity_pizza_details.class);
-                intent.putExtra("pizza", pizza);  // Pass the clicked pizza to the details activity
+                intent.putExtra("pizza", pizza);
                 context.startActivity(intent);
             }
         });

@@ -3,22 +3,22 @@ package com.example.pizzeria;
 import java.io.Serializable;
 
 public class CartItem implements Serializable {
-    private String itemName;
-    private double itemPrice;
+    private Pizza pizza;
+    private String size;
     private int quantity;
 
-    public CartItem(String itemName, double itemPrice, int quantity) {
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
+    public CartItem(Pizza pizza, String size, int quantity) {
+        this.pizza = pizza;
+        this.size = size;
         this.quantity = quantity;
     }
 
-    public String getItemName() {
-        return itemName;
+    public Pizza getPizza() {
+        return pizza;
     }
 
-    public double getItemPrice() {
-        return itemPrice;
+    public String getSize() {
+        return size;
     }
 
     public int getQuantity() {
@@ -30,6 +30,6 @@ public class CartItem implements Serializable {
     }
 
     public double getTotalPrice() {
-        return itemPrice * quantity;
+        return pizza.getPrice() * quantity;
     }
 }

@@ -25,6 +25,7 @@ public class activity_pizza_details extends AppCompatActivity {
     private BottomNavigationView bottomNavView;
 
     private int currentQuantity = 1;
+    private Pizza selectedPizza; // Added to store the selected pizza object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,14 @@ public class activity_pizza_details extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String pizzaSize = getSelectedSize();
-                // TODO: Add item to cart with selected size and quantity
-                String message = "Added " + currentQuantity + " " + pizzaSize + " pizza to cart";
-                Toast.makeText(activity_pizza_details.this, message, Toast.LENGTH_SHORT).show();
+                if (selectedPizza != null) {
+                    CartItem cartItem = new CartItem(selectedPizza, pizzaSize, currentQuantity);
+                    CartManager.getInstance().addItemToCart(cartItem);
+                    int cartItemCount = CartManager.getInstance().getCartItemCount();
+                    bottomNavView.getOrCreateBadge(R.id.menu_cart).setNumber(cartItemCount);
+                    String message = "Added " + currentQuantity + " " + pizzaSize + " pizza to cart";
+                    Toast.makeText(activity_pizza_details.this, message, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -94,7 +100,7 @@ public class activity_pizza_details extends AppCompatActivity {
         // Retrieve the selected pizza object from the intent
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("pizza")) {
-            Pizza selectedPizza = intent.getParcelableExtra("pizza");
+            selectedPizza = intent.getParcelableExtra("pizza");
             if (selectedPizza != null) {
                 // Update the pizza image based on the selected pizza's image resource ID
                 pizzaImage.setImageResource(selectedPizza.getImageResourceId());

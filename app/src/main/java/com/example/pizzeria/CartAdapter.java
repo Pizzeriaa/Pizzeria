@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -29,9 +31,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartItem cartItem = cartItems.get(position);
+        Pizza pizza = cartItem.getPizza();
 
-        holder.itemNameTextView.setText(cartItem.getItemName());
-        holder.itemPriceTextView.setText(context.getString(R.string.price_format, cartItem.getItemPrice()));
+        holder.itemNameTextView.setText(pizza.getName());
+        holder.itemSizeTextView.setText(cartItem.getSize());
+        holder.itemPriceTextView.setText(context.getString(R.string.price_format, pizza.getPrice()));
         holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
     }
 
@@ -42,12 +46,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     public class CartViewHolder extends RecyclerView.ViewHolder {
         TextView itemNameTextView;
+        TextView itemSizeTextView;
         TextView itemPriceTextView;
         TextView itemQuantityTextView;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             itemNameTextView = itemView.findViewById(R.id.itemNameTextView);
+            itemSizeTextView = itemView.findViewById(R.id.itemSizeTextView);
             itemPriceTextView = itemView.findViewById(R.id.itemPriceTextView);
             itemQuantityTextView = itemView.findViewById(R.id.itemQuantityTextView);
         }

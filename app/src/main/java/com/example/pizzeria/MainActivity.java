@@ -1,4 +1,5 @@
 package com.example.pizzeria;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         pizzaCategoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an intent to open the activity_pizza_types
+                // Create an intent to open the PizzaTypesActivity
                 Intent intent = new Intent(MainActivity.this, activity_pizza_types.class);
 
                 // Start the activity

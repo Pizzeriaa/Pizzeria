@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartManager {
+
     private static CartManager instance;
     private List<CartItem> cartItems;
 
@@ -26,11 +27,15 @@ public class CartManager {
         return cartItems;
     }
 
-    public void clearCart() {
-        cartItems.clear();
-    }
-
     public int getCartItemCount() {
         return cartItems.size();
+    }
+
+    public double calculateTotalPrice() {
+        double total = 0;
+        for (CartItem item : cartItems) {
+            total += item.getTotalPrice();
+        }
+        return total;
     }
 }

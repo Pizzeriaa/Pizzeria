@@ -1,136 +1,151 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/pizzaPrimaryColor">
+    android:background="@color/pizzaPrimaryColor"
+    tools:context=".activity_pizza_details">
 
-    <!-- Display Pizza Image -->
+    <TextView
+        android:id="@+id/pizzaDetailsHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Customize Your Pizza"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:textColor="@color/white" />
+
     <ImageView
         android:id="@+id/pizzaImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/veggie_pizza" />
-
-    <!-- Display Pizza Name -->
-    <TextView
-        android:id="@+id/pizzaName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Veggie Pizza"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/pizzaDetailsHeading"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:textColor="@android:color/white" />
+        android:src="@drawable/cheese_pizza"
+        android:contentDescription="Pizza Image" />
 
-    <!-- Display Pizza Description -->
-    <TextView
-        android:id="@+id/pizzaDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delicious vegetarian pizza topped with fresh vegetables."
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:textColor="@android:color/white" />
-
-    <!-- Display Pizza Sizes and Prices -->
     <RadioGroup
         android:id="@+id/pizzaSizeGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/pizzaImage"
         android:layout_marginTop="16dp"
-        android:orientation="vertical">
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
 
+        <!-- RadioButtons with background set to null -->
         <RadioButton
             android:id="@+id/sizeSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Small"
             android:checked="true"
-            android:textColor="@android:color/white"
-            android:onClick="onSizeSelected" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@null" />
 
         <RadioButton
             android:id="@+id/sizeMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium"
-            android:textColor="@android:color/white"
-            android:onClick="onSizeSelected" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@null" />
 
         <RadioButton
             android:id="@+id/sizeLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Large"
-            android:textColor="@android:color/white"
-            android:onClick="onSizeSelected" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@null" />
 
     </RadioGroup>
 
-    <!-- Display Pizza Price -->
-    <TextView
-        android:id="@+id/pizzaPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$10"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
-
-    <!-- Quantity Controls -->
     <LinearLayout
+        android:id="@+id/quantityLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/pizzaSizeGroup"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
-        <!-- Decrease Quantity Button -->
-        <ImageButton
+        <!-- Decrease button with light gray background -->
+        <ImageView
             android:id="@+id/decreaseQuantityButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/decrease_quantity"
-            android:contentDescription="Decrease Quantity"
-            android:onClick="decreaseQuantity" />
+            android:background="@color/light_gray"
+            android:contentDescription="Decrease Quantity" />
 
-        <!-- Quantity Text -->
         <TextView
             android:id="@+id/pizzaQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
-            android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginHorizontal="16dp" />
 
-        <!-- Increase Quantity Button -->
-        <ImageButton
+        <!-- Increase button with light gray background -->
+        <ImageView
             android:id="@+id/increaseQuantityButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/increase_quantity"
-            android:contentDescription="Increase Quantity"
-            android:onClick="increaseQuantity" />
+            android:background="@color/light_gray"
+            android:contentDescription="Increase Quantity" />
 
     </LinearLayout>
 
-    <!-- Add to Cart Button -->
-    <Button
-        android:id="@+id/addToCartButton"
+    <TextView
+        android:id="@+id/pizzaPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to Cart"
-        android:layout_gravity="center_horizontal"
+        android:text="$10.99"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/quantityLayout"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/addToCartButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to Cart"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_below="@id/pizzaPrice"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="12dp"
+        android:stateListAnimator="@null"
+        android:focusable="true"
+        android:clickable="true" />
 
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-2dp"
+        android:background="@color/pizzaPrimaryColor"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

@@ -41,7 +41,7 @@ public class PizzaTypesAdapter extends RecyclerView.Adapter<PizzaTypesAdapter.Vi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, activity_pizza_details.class);
-                intent.putExtra("pizza", pizza);
+                intent.putExtra("pizza", pizza); // Pass the pizza object
                 context.startActivity(intent);
             }
         });

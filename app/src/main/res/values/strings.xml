@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Pizzeria</string>
     <string name="pizza_price">Price: $%.2f</string>
+    <string name="subtotal">Subtotal: $%.2f</string>
+    <string name="gst">GST (10%%): $%.2f</string>
+    <string name="delivery_price">Delivery: $%.2f</string>
+    <string name="total">Total: $%.2f</string>
+    <string name="price_format">$%.2f</string>
 </resources>

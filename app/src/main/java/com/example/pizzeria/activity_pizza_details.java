@@ -2,54 +2,61 @@ package com.example.pizzeria;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class activity_pizza_details extends AppCompatActivity {
 
-    private TextView pizzaPrice;
-    private TextView pizzaQuantity;
-    private int quantity = 1;
-    private double basePrice = 10.0;
+    private ImageView pizzaImage;
+    private RadioGroup pizzaSizeGroup;
+    private RadioButton sizeSmall, sizeMedium, sizeLarge;
+    private ImageView decreaseQuantityButton, increaseQuantityButton;
+    private TextView pizzaQuantity, pizzaPrice;
+    private Button addToCartButton;
+    private BottomNavigationView bottomNavView;
+
+    private int currentQuantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_details);
 
-        pizzaPrice = findViewById(R.id.pizzaPrice);
+        pizzaImage = findViewById(R.id.pizzaImage);
+        pizzaSizeGroup = findViewById(R.id.pizzaSizeGroup);
+        sizeSmall = findViewById(R.id.sizeSmall);
+        sizeMedium = findViewById(R.id.sizeMedium);
+        sizeLarge = findViewById(R.id.sizeLarge);
+        decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
+        increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
         pizzaQuantity = findViewById(R.id.pizzaQuantity);
+        pizzaPrice = findViewById(R.id.pizzaPrice);
+        addToCartButton = findViewById(R.id.addToCartButton);
+        bottomNavView = findViewById(R.id.bottomNavView);
 
-        ImageView pizzaImage = findViewById(R.id.pizzaImage);
-        TextView pizzaName = findViewById(R.id.pizzaName);
-
-        // Retrieve pizza details from the intent
-        Pizza pizza = getIntent().getParcelableExtra("pizza");
-        if (pizza != null) {
-            pizzaImage.setImageResource(pizza.getImageResourceId());
-            pizzaName.setText(pizza.getName());
-        }
-
-        updatePrice();
-        updateQuantity();
-
-        ImageButton decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
-        ImageButton increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
+        pizzaSizeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                updatePizzaPrice();
+            }
+        });
 
         decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity > 1) {
-                    quantity--;
-                    updateQuantity();
-                    updatePrice();
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    updateQuantityText();
+                    updatePizzaPrice();
                 }
             }
         });
@@ -57,62 +64,75 @@ public class activity_pizza_details extends AppCompatActivity {
         increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quantity++;
-                updateQuantity();
-                updatePrice();
+                currentQuantity++;
+                updateQuantityText();
+                updatePizzaPrice();
             }
         });
-
-        Button addToCartButton = findViewById(R.id.addToCartButton);
 
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pizzaNameText = pizzaName.getText().toString();
-                String pizzaPriceText = pizzaPrice.getText().toString();
-
-                // Create a cart item
-                CartItem cartItem = new CartItem(pizzaNameText, pizzaPriceText, quantity);
-
-                // Add the item to the cart using CartManager
-                CartManager.getInstance().addItemToCart(cartItem);
-
-                // Notify the user
-                Toast.makeText(activity_pizza_details.this, "Item added to cart", Toast.LENGTH_SHORT).show();
-
-                // Finish the activity
-                finish();
+                String pizzaSize = getSelectedSize();
+                // TODO: Add item to cart with selected size and quantity
+                String message = "Added " + currentQuantity + " " + pizzaSize + " pizza to cart";
+                Toast.makeText(activity_pizza_details.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    public void onSizeSelected(View view) {
-        RadioButton radioButton = (RadioButton) view;
-        String size = radioButton.getText().toString();
+        bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                // Handle bottom navigation item clicks
+                return true;
+            }
+        });
 
-        switch (size) {
-            case "Small":
-                basePrice = 10.0;
-                break;
-            case "Medium":
-                basePrice = 15.0;
-                break;
-            case "Large":
-                basePrice = 20.0;
-                break;
-            default:
-                basePrice = 10.0;
+        updateQuantityText();
+        updatePizzaPrice();
+
+        // Retrieve the selected pizza object from the intent
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("pizza")) {
+            Pizza selectedPizza = intent.getParcelableExtra("pizza");
+            if (selectedPizza != null) {
+                // Update the pizza image based on the selected pizza's image resource ID
+                pizzaImage.setImageResource(selectedPizza.getImageResourceId());
+            }
         }
-
-        updatePrice();
     }
 
-    private void updatePrice() {
-        double totalPrice = basePrice * quantity;
-        pizzaPrice.setText(getString(R.string.pizza_price, totalPrice));
+    private void updateQuantityText() {
+        pizzaQuantity.setText(String.valueOf(currentQuantity));
     }
 
-    private void updateQuantity() {
-        pizzaQuantity.setText(String.valueOf(quantity));
+    private String getSelectedSize() {
+        int selectedId = pizzaSizeGroup.getCheckedRadioButtonId();
+        if (selectedId == sizeSmall.getId()) {
+            return "Small";
+        } else if (selectedId == sizeMedium.getId()) {
+            return "Medium";
+        } else if (selectedId == sizeLarge.getId()) {
+            return "Large";
+        }
+        return "";
+    }
+
+    private void updatePizzaPrice() {
+        double basePrice = getSelectedBasePrice();
+        double totalPrice = basePrice * currentQuantity;
+        pizzaPrice.setText(String.format("$%.2f", totalPrice));
+    }
+
+    private double getSelectedBasePrice() {
+        int selectedId = pizzaSizeGroup.getCheckedRadioButtonId();
+        if (selectedId == sizeSmall.getId()) {
+            return 8.99;
+        } else if (selectedId == sizeMedium.getId()) {
+            return 10.99;
+        } else if (selectedId == sizeLarge.getId()) {
+            return 12.99;
+        }
+        return 0;
     }
 }

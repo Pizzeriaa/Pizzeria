@@ -1,42 +1,23 @@
 package com.example.pizzeria;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
-public class CartItem implements Parcelable {
+public class CartItem implements Serializable {
     private String itemName;
-    private String itemPrice;
+    private double itemPrice;
     private int quantity;
 
-    public CartItem(String itemName, String itemPrice, int quantity) {
+    public CartItem(String itemName, double itemPrice, int quantity) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.quantity = quantity;
     }
 
-    protected CartItem(Parcel in) {
-        itemName = in.readString();
-        itemPrice = in.readString();
-        quantity = in.readInt();
-    }
-
-    public static final Creator<CartItem> CREATOR = new Creator<CartItem>() {
-        @Override
-        public CartItem createFromParcel(Parcel in) {
-            return new CartItem(in);
-        }
-
-        @Override
-        public CartItem[] newArray(int size) {
-            return new CartItem[size];
-        }
-    };
-
     public String getItemName() {
         return itemName;
     }
 
-    public String getItemPrice() {
+    public double getItemPrice() {
         return itemPrice;
     }
 
@@ -44,15 +25,11 @@ public class CartItem implements Parcelable {
         return quantity;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(itemName);
-        dest.writeString(itemPrice);
-        dest.writeInt(quantity);
+    public double getTotalPrice() {
+        return itemPrice * quantity;
     }
 }

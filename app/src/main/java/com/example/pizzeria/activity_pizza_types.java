@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,9 +32,9 @@ public class activity_pizza_types extends AppCompatActivity {
         recyclerViewPizzaTypes.setLayoutManager(new LinearLayoutManager(this));
 
         List<Pizza> pizzas = new ArrayList<>();
-        pizzas.add(new Pizza("Veggie Pizza", R.drawable.veggie_pizza));
-        pizzas.add(new Pizza("Cheese Pizza", R.drawable.cheese_pizza));
-        pizzas.add(new Pizza("Pepperoni Pizza", R.drawable.pizzlogo));
+        pizzas.add(new Pizza(1, "Veggie Pizza", "Delicious vegetarian pizza topped with fresh vegetables.", 10.0, 0, R.drawable.veggie_pizza));
+        pizzas.add(new Pizza(2, "Cheese Pizza", "Classic cheese pizza with melted mozzarella.", 8.0, 0, R.drawable.cheese_pizza));
+        pizzas.add(new Pizza(3, "Pepperoni Pizza", "Savory pepperoni pizza with a generous amount of toppings.", 12.0, 0, R.drawable.pizzlogo));
 
         pizzaTypesAdapter = new PizzaTypesAdapter(pizzas, this);
         recyclerViewPizzaTypes.setAdapter(pizzaTypesAdapter);
@@ -61,7 +60,7 @@ public class activity_pizza_types extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CART && resultCode == RESULT_OK) {
             Toast.makeText(this, "Item added to cart", Toast.LENGTH_SHORT).show();
